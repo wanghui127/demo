@@ -33,6 +33,14 @@ public class HelloController extends JsonResultUtil{
     }
 
 
+    /** 
+    * @Description:  数据库连接测试
+     * @Param:
+    * @return:  
+    * @Author: Hui.Wang 
+    * @Date: 2019/6/19 0019 
+    * @Time: 22:20 
+    */ 
     @RequestMapping("/joke")
     @ResponseBody
     public JsonResult selectJoke(){
