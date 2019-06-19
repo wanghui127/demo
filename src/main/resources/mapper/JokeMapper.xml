@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.joke.JokeMapper">
+
+    <resultMap id="jokeMap" type="com.example.demo.entity.joke.Joke">
+        <result column="id" property="id" javaType="java.lang.Integer"/>
+        <result column="content" property="content" javaType="java.lang.String"/>
+    </resultMap>
+
+    <select id="selectPage" resultType="com.example.demo.entity.joke.Joke" parameterType="map">
+		SELECT j.*
+		FROM joke j
+	</select>
+</mapper>
