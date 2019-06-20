@@ -29,7 +29,13 @@ public class HelloController extends JsonResultUtil{
     //templates下的页面
     @RequestMapping("/index")
     public String index(){
-        return "index.html";
+        return "index";
+    }
+
+    //templates下的页面
+    @RequestMapping("/jokeList")
+    public String jokeList(){
+        return "joke/jokeList";
     }
 
 
