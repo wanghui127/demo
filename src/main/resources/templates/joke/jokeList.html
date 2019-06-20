@@ -3,15 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <script>
-        var ctx  = "[[@{/}]]";
+        var ctx = "[[@{/}]]";
     </script>
+    <script type="text/javascript" src="${ctx}/layui/layui.js" ></script>
+    <link rel='stylesheet' href='${ctx}/layui/css/layui.css'>
+    <script type="text/javascript" src="${ctx}/jq/jquery-3.4.1.js"></script>
 
 </head>
 <body>
+<div class="layui-inline">
+    <div class="layui-btn-group" style="margin-left: 20px;">
+        <button class="layui-btn layui-btn" data-type="all" data-events="getCheckData">
+            <i class="layui-icon">&#xe654;</i>审核
+        </button>
+        <button class="layui-btn layui-btn" data-type="all" data-events="getCheckView">
+            <i class="layui-icon">&#xe642;</i>查看
+        </button>
+    </div>
+</div>
 
+<div class="layui-row layui-col-space12" id="_content" >
+    <!--<div class="layui-col-md1"></div>-->
+    <div class="layui-col-md12">
+        <table class="layui-hide" id="test" lay-filter="test"></table>
+    </div>
+    <!--<div class="layui-col-md1"></div>-->
+</div>
 </body>
-<script>
+<script th:inline="none">
+    layui.use(['table','laytpl'], function() {
+        var $ = layui.$, admin = layui.admin, layer = layui.layer, form = layui.form, jquery = layui.jquery,
+            table = layui.table, laytpl = layui.laytpl;
+        var tableIns = table.render({
+            elem: '#test'
+            , url: '${ctx}/joke'
+            //,toolbar: '#toolbarDemo'
+            , defaultToolbar: ['filter']
+            ,method:'post'
+            // contentType:'application/json; charset=utf-8'
+            // ,height: parseInt(window.screen.height)*0.70
+            , cols: [[
+                {type: 'checkbox', title: '选择', align: 'center', fixed: 'left'}
+                , {type: 'numbers', title: '序号', align: 'center', fixed: 'left'}
+                , {field: 'id', title: '主键', align: 'center'}
+                , {field: 'content', title: '内容', align: 'left'}
+            ]]
+            , page: true
+        });
 
+        var events = {
+            getCheckData: function (othis, type) {
+                var selected = table.checkStatus('test').data;
+                if (selected.length != 1) {
+                    layer.alert("请选择一个行进行审核", {icon: 2, title: '错误'});
+                    return;
+                }
+                var checkdata = selected[0];
+                //console.log(checkdata);
+
+                var status = checkdata.checkStatus;
+
+                if (status == 0) {
+                    layer.alert("该数据已审核");
+                    return;
+                }
+                location.hash = '/specialList/ckeckOne/' + checkdata.chronicPersonId;
+            },
+            getCheckView: function (othis, type) {
+                var selected = table.checkStatus('test').data;
+                if (selected.length != 1) {
+                    layer.alert("请选择一个行进行查看", {icon: 2, title: '错误'});
+                    return;
+                }
+                var checkdata = selected[0];
+                location.hash = '/specialList/viewOne/' + checkdata.chronicPersonId;
+            }
+        };
+    });
 </script>
 </html>
