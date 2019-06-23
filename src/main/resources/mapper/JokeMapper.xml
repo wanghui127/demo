@@ -10,5 +10,11 @@
     <select id="selectPage" resultType="com.example.demo.entity.joke.Joke" parameterType="map">
 		SELECT j.*
 		FROM joke j
+		limit ${firstNum},${lastNum}
 	</select>
+    
+    <select id="selectCount" parameterType="map" resultType="int">
+        SELECT COUNT(1)
+		FROM joke
+    </select>
 </mapper>

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,9 +51,18 @@ public class HelloController extends JsonResultUtil{
     */ 
     @RequestMapping(value = "/joke",method = RequestMethod.POST)
     @ResponseBody
-    public JsonResult selectJoke(){
+    public JsonResult selectJoke(HttpServletRequest request){
         Map<String,String> params = new HashMap<>();
+        int total = jokeService.selectCount(params);
+        //页数
+        int page =Integer.valueOf(request.getParameter("page"));
+        //显示的条数
+        int limit =Integer.valueOf(request.getParameter("limit"));
+        int firstNum = (page-1)*limit;
+        params.put("lastNum",String.valueOf(limit));
+        params.put("firstNum",String.valueOf(firstNum));
+        //查询的数据集
         List<Joke> jokes = jokeService.selectPage(params);
-        return this.successRender().add("jokes",jokes);
+        return this.successRender().add("data",jokes).add("status",0).add("total",total).add("msg","成功");
     }
 }

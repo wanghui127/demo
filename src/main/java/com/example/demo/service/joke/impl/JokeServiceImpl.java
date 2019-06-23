@@ -15,6 +15,11 @@ public class JokeServiceImpl implements JokeService {
     JokeMapper jokeMapper;
 
     @Override
+    public int selectCount(Map<String, String> params) {
+        return jokeMapper.selectCount(params);
+    }
+
+    @Override
     public List<Joke> selectPage(Map<String, String> params) {
         return jokeMapper.selectPage(params);
     }
