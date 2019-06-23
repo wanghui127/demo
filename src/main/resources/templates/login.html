@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en"  >
+<head>
+    <meta charset="utf-8">
+    <title>暂时不知道叫啥系统</title>
+    <#assign ctx="${requestContext.contextPath}"/>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <script type="text/javascript" src="${ctx}/static/layui/layui.js" ></script>
+    <link rel='stylesheet' href='${ctx}/static/layui/css/layui.css'>
+    <script type="text/javascript" src="${ctx}/static/jq/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="${ctx}/static/css/login.css" media="all">
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--
+    <script src="lib/html5shiv/html5shiv.min.js"></script>
+    <script src="lib/respond/respond.min.js"></script>
+    -->
+</head>
+<body>
+<div class="header">
+    <div class="header-title">
+        <span class="header-title-name">暂时不知道叫啥系统</span>
+        <a class="header-btn">说明</a>
+    </div>
+</div>
+<div class="main" id="LAY-user-login">
+    <div class="main-box">
+        <div class="left-bg"></div>
+        <div class="layui-tab login-con">
+            <ul class="layui-tab-title layui-row">
+                <li class="layui-this layui-col-md6 line-tab">登录</li>
+                <li class="layui-col-md6">注册</li>
+            </ul>
+            <div class="layui-tab-content ">
+                <div class="layui-tab-item layui-show ">
+                    <div class="layadmin-user-login-main">
+                        <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+                            <div class="layui-form-item">
+                                <label class="layadmin-user-login-icon"><i class="layui-icon">&#xe678;</i> </label>
+                                <input type="text" id="phone" name="phone" lay-verify="required"
+                                       placeholder="请输入账号"
+                                       class="layui-input">
+                            </div>
+
+                            <div class="layui-form-item">
+                                <label class="layadmin-user-login-icon"><i class="layui-icon">&#xe673;</i> </label>
+                                <input type="password" id="password" name="password" lay-verify="required"
+                                       placeholder="请输入密码"
+                                       class="layui-input">
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-row">
+                                    <div class="layui-col-xs7">
+                                        <input type="text" id="vercode" name="vercode" lay-verify="required"
+                                               placeholder="请输入验证码" class="vercode-input layui-input">
+                                    </div>
+                                    <div class="layui-col-xs5">
+                                        <div style="margin-left: 20px;">
+                                            <a href="#" onclick="changeImg()" style="height: 50px"><img id="imgObj" alt="验证码" src="${ctx}/getCode"></a><br/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="loginSubmit">
+                                    登录
+                                </button>
+                            </div>
+                             <div class="login-way">
+                                 <div class="title">其他登录方式</div>
+                                 <div class="login-icon-box layui-row">
+                                    <ul>
+                                        <li class="layui-col-md4"><a class="icon icon_wx"></a></li>
+                                        <li class="layui-col-md4"><a class="icon icon_qq"></a></li>
+                                        <li class="layui-col-md4"><a class="icon icon_ali"></a></li>
+                                    </ul>
+                                 </div>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item ">
+                    <div class="layadmin-user-login-main">
+                        <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+                            <div class="layui-form-item">
+                                <label class="layadmin-user-login-icon icon_phone"></label>
+                                <input type="text" name="username"
+                                       placeholder="请输入用户名"
+                                       class="layui-input">
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-row">
+                                    <div class="layui-col-xs7">
+                                        <input type="text" name="vercode"
+                                               placeholder="短信验证码" class="msgcode-input layui-input">
+                                    </div>
+                                    <div class="layui-col-xs5">
+                                        <div>
+                                            <span class="get-code">获取验证码</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-row">
+                                    <div class="layui-col-xs7">
+                                        <input type="text" name="vercode" id="LAY-user-login-vercode"
+                                               placeholder="请输入验证码" class="vercode-input layui-input">
+                                    </div>
+                                    <div class="layui-col-xs5">
+                                        <div style="margin-left: 20px;">
+                                            <img src="https://www.oschina.net/action/user/captcha"
+                                                 class="layadmin-user-login-codeimg"
+                                                 id="LAY-user-get-vercode2">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <button class="layui-btn layui-btn-fluid register-btn" onclick="register();" lay-submit lay-filter="LAY-user-login-submit">
+                                    立即注册
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</div>
+<div class="footer">
+    <ul>
+        <li>COPYRIGHT © 2006-2019</li>
+        <li>本站解释权归本人所有</li>
+    </ul>
+</div>
+<script src="layui/layui.js"></script>
+<script>
+     layui.use(['element','form'], function () {
+         var $ = layui.$, admin = layui.admin, layer = layui.layer, form = layui.form, jquery = layui.jquery,
+             table = layui.table, laytpl = layui.laytpl;
+
+         form.on('submit(loginSubmit)', function(data){
+             $.ajax({
+                 url: "${ctx}/checkCode",
+                 type: "post",
+                 async:false,
+                 data: JSON.stringify(data.field),
+                 contentType: "application/json; charset=utf-8",
+                 success: function (res) {
+                     if (res.succeed){
+                         /*layer.alert(res.msg, {icon: 1});*/
+                         window.location.href="${ctx}/jokeList"
+                     } else {
+                         layer.msg(res.msg, {icon: 5});
+                         changeImg();
+                     }
+                 },
+                 error: function () {
+                     layer.alert('操作失败,请联系管理员！', {icon: 5});
+                 }
+             });
+             return false;
+         });
+     })
+</script>
+<script>
+    function register() {
+        layer.alert("暂不支持自主注册！");
+    }
+</script>
+<script >
+    $(function() {
+
+    });
+    function changeImg() {
+        var imgSrc = $("#imgObj");
+        var src = imgSrc.attr("src");
+        imgSrc.attr("src", chgUrl(src));
+    }
+    // 时间戳
+    // 为了使每次生成图片不一致，即不让浏览器读缓存，所以需要加上时间戳
+    function chgUrl(url) {
+        var timestamp = (new Date()).valueOf();
+        url = url.substring(0, 20);
+        if ((url.indexOf("&") >= 0)) {
+            url = url + "×tamp=" + timestamp;
+        } else {
+            url = url + "?timestamp=" + timestamp;
+        }
+        return url;
+    }
+</script>
+</body>
+</html>

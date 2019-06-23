@@ -1,0 +1,60 @@
+html,body,#LAY_app{height:100%;}
+.layui-layout-body{overflow: auto;}
+
+#LAY-user-login,
+.layadmin-user-display-show{display: block !important;}
+.layadmin-user-login-main{width: 330px;box-sizing: border-box;background: #fff;padding: 20px 0;height:320px;border-bottom-left-radius: 4px;border-bottom-right-radius: 4px}
+.layadmin-user-login-box{  padding:0 20px;}
+.layadmin-user-login-header{text-align: center;}
+
+.layadmin-user-login-body .layui-form-item{position: relative;}
+.layadmin-user-login-icon{position: absolute; left: 1px; top: 1px; width: 38px; line-height: 36px; text-align: center; color: #d2d2d2;height: 36px;}
+.layadmin-user-login-body .layui-form-item .layui-input{padding-left: 38px;border-color: #ccc}
+.layadmin-user-login-body .layui-form-item .vercode-input{padding-left: 20px}
+.layadmin-user-login-body .layui-form-item .msgcode-input{padding-left: 10px;border-radius: 0}
+.layadmin-user-login-codeimg{max-height: 38px; width: 100%; cursor: pointer; box-sizing: border-box;border: 1px solid #ccc;}
+.header {width: 940px;margin: 0 auto}
+.header-title {height:50px;line-height: 50px;padding: 30px 110px 14px 0;}
+.header-title-name {color: #258ec8;font-weight: 500;font-size: 28px;}
+.header-btn:before{content: '';width: 16px;height: 16px;display: inline-block;background:url(../images/write.png) center center no-repeat;vertical-align: middle;margin-right: 6px;}
+.header-btn{float: right;border:1px solid #44aee8;border-radius: 4px;cursor:pointer;color: #44aee8;height: 32px;line-height: 32px;padding: 0 20px; margin-top: 9px;}
+.header-btn:hover{color: #44aee8;}
+.main {height: 450px;background: url("../images/login_bg02.png") no-repeat center center;background-size: cover;}
+.main .main-box{width: 1100px;margin:0 auto;overflow: hidden;height: 100%;}
+.left-bg{float: left;width: 554px;height: 100%;background: url(../images/left_loginbg.png) center center no-repeat}
+.main .login-con{width: 330px; float: right;margin-top: 40px;margin-right: 160px;}
+.login-con .layui-form-checkbox[lay-skin=primary]:hover i {border-color: #0cb9a9;color: #fff;}
+.login-con  .layui-form-checked[lay-skin=primary] i {border-color: #0cb9a9;background-color: #0cb9a9;color: #fff;}
+.login-con .layui-btn{background-color: #44aee8;margin-top: 5px;}
+.login-con .register-btn{margin-top: 25px;}
+.login-con .layui-tab-title{background-color: #fff;border: none;padding: 10px 20px 0;border-top-left-radius: 4px;border-top-right-radius: 4px;}
+.login-con  .layui-tab-content{padding: 0;}
+.login-con  .layui-tab-title li{color: #2c2c2c;font-size: 16px;}
+.layui-tab-title .layui-this:after{border-width: 0}
+.login-con  .layui-tab-title .layui-this {color: #2397d6;border-bottom: 2px solid #2397d6;}
+.layui-tab-title  .line-tab:after{content:'';position: absolute;width: 1px;height: 16px;right: 0;background-color: #ccc;top:12px;left: auto}
+
+.get-code{display: block;border: 1px solid #ccc;border-left: none;height: 36px;line-height: 36px;text-align: center;color: #44aee8;background-color: #f9f9f9;cursor: pointer}
+.login-way .title{height: 25px;line-height:25px;position: relative;text-align: center;color:#959595}
+.login-way .title:before,.login-way .title:after{content:'';height: 1px;width:32%;background-color: #ccc;position: absolute;top:12px}
+.login-way .title:before{left: 0}
+.login-way .title:after{right: 0}
+.login-way  .login-icon-box{padding: 8px 20px;height: 34px;}
+.login-way  .login-icon-box ul,.login-way  .login-icon-box li{height: 40px;}
+.login-way  .login-icon-box li{text-align: center}
+.login-way  .login-icon-box li .icon{display: inline-block;width: 34px;height: 34px;cursor: pointer}
+.icon_phone{ background:url(../images/phone.png) center center no-repeat}
+.icon_wx{ background:url(../images/icon_wx.png) center center no-repeat}
+.icon_qq{ background:url(../images/icon_qq.png) center center no-repeat}
+.icon_ali{ background:url(../images/icon_ali.png) center center no-repeat}
+/* footer start */
+.footer {margin-top: 20px;text-align: center;}
+.footer ul{overflow: hidden;display: inline-block;}
+.footer li{float: left;padding: 0 12px;line-height: 16px;border-right: 1px solid #828282;color: #828282;}
+.footer li:last-child{border-right: none;}
+.footer   a {color: #828282;font-size: 14px;}
+/* footer end */
+
+
+
+
