@@ -6,6 +6,7 @@ import com.example.demo.utils.JsonResult;
 import com.example.demo.utils.JsonResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -65,4 +66,74 @@ public class HelloController extends JsonResultUtil{
         List<Joke> jokes = jokeService.selectPage(params);
         return this.successRender().add("data",jokes).add("status",0).add("total",total).add("msg","成功");
     }
+
+
+    /** 
+    * @Description:  修改内容
+    * @Param:  
+    * @return:  
+    * @Author: Hui.Wang 
+    * @Date: 2019/6/23 0023 
+    * @Time: 9:09 
+    */
+    @RequestMapping(value = "/updateContent",method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult updateContent(@RequestBody Map<String,String> params, HttpServletRequest request){
+        String id = params.get("id");
+        String content = params.get("content");
+        try {
+            jokeService.updateById(Integer.valueOf(id),content);
+            return this.successRender().message("修改成功");
+        }catch (Exception e){
+            e.printStackTrace();
+            return this.failRender().message("删除异常，请联系管理员");
+        }
+
+    }
+
+    /**
+     * @Description:  删除数据
+     * @Param:
+     * @return:
+     * @Author: Hui.Wang
+     * @Date: 2019/6/23 0023
+     * @Time: 9:09
+     */
+    @RequestMapping(value = "/delById",method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult delById(@RequestBody Map<String,String> params, HttpServletRequest request){
+        try {
+            String id = params.get("id");
+            jokeService.deleteById(Integer.valueOf(id));
+            return this.successRender().message("删除成功");
+        }catch (Exception e){
+            e.printStackTrace();
+            return this.failRender().message("删除异常，请联系管理员");
+        }
+    }
+
+
+    /**
+     * @Description:  新增数据
+     * @Param:
+     * @return:
+     * @Author: Hui.Wang
+     * @Date: 2019/6/23 0023
+     * @Time: 9:09
+     */
+    @RequestMapping(value = "/insertOne",method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult insertOne(@RequestBody Map<String,String> params, HttpServletRequest request){
+        try {
+            String content = params.get("content");
+            Joke joke = new Joke();
+            joke.setContent(content);
+            jokeService.insertJoke(joke);
+            return this.successRender().message("新增成功");
+        }catch (Exception e){
+            e.printStackTrace();
+            return this.failRender().message("新增异常，请联系管理员");
+        }
+    }
+
 }

@@ -17,4 +17,19 @@
         SELECT COUNT(1)
 		FROM joke
     </select>
+    
+    <update id="updateById">
+        UPDATE joke
+        set content = #{content}
+        where id = #{id}
+    </update>
+    
+    <delete id="deleteById" parameterType="int">
+        DELETE FROM joke
+        WHERE id = #{id}
+    </delete>
+    
+    <insert id="insertJoke"  useGeneratedKeys="true" keyProperty="id" parameterType="com.example.demo.entity.joke.Joke">
+      INSERT INTO joke (content) VALUES (#{content})
+    </insert>
 </mapper>

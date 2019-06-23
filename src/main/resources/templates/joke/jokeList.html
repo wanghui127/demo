@@ -25,10 +25,10 @@
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-group" style="margin-left: 20px;">
         <button class="layui-btn layui-btn" data-type="all" lay-event="getCheckData">
-            <i class="layui-icon">&#xe654;</i>审核
+            <i class="layui-icon">&#xe642;</i>审核
         </button>
-        <button class="layui-btn layui-btn" data-type="all" lay-event="getCheckView">
-            <i class="layui-icon">&#xe642;</i>查看
+        <button class="layui-btn layui-btn" data-type="all" lay-event="getCheckAdd">
+            <i class="layui-icon">&#xe654;</i>新增
         </button>
     </div>
 </script>
@@ -71,20 +71,57 @@
         //头工具栏事件
         table.on('toolbar(test)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id);
-            if(checkStatus.data == "" ){
-                layer.msg("请选择一条数据",{icon: 6});
-            }else{
                 switch(obj.event){
                     case 'getCheckData':
+                        if(checkStatus.data == "" ){
+                            layer.msg("请选择一条数据",{icon: 6});
+                            return false;
+                        }
+                        //取到的是数组
                         var data = checkStatus.data;
-                        layer.alert(JSON.stringify(data));
+                        layer.alert(JSON.stringify(data[0].content),{title:'内容'});
                         break;
-                    case 'getCheckView':
-                        var data = checkStatus.data;
-                        layer.msg('选中了：'+ data.length + ' 个');
+                    case 'getCheckAdd':
+                        layer.prompt({
+                            formType: 2,
+                            value: '请输入笑话内容',
+                            title: '请输入内容',
+                            area: ['600px', '350px'] //自定义文本域宽高
+                        }, function(value, index, elem){
+                            $.ajax({
+                                url: "${ctx}/insertOne",
+                                type: "post",
+                                async:false,
+                                data: JSON.stringify({content:value}),
+                                contentType: "application/json; charset=utf-8",
+                                success: function (res) {
+                                    if (res.succeed){
+                                        obj.del();
+                                        layer.close(index);
+                                        tableIns.reload({
+                                            elem: '#test'
+                                            ,url:'${ctx}/joke'
+                                            //,where: data.field
+                                            ,page: {
+                                                //curr: 1 //重新从第 1 页开始
+                                            }
+                                            ,done: function(res, curr, count){
+                                                layer.closeAll();
+                                            }
+                                        });
+                                        layer.alert(res.msg, {icon: 1});
+                                    } else {
+                                        layer.alert(res.msg, {icon: 5});
+                                    }
+                                },
+                                error: function () {
+                                    layer.alert('操作失败,请联系管理员！', {icon: 5});
+                                }
+                            });
+                            layer.close(index);
+                        });
                         break;
                 };
-            }
         });
 
         //监听行工具事件
@@ -92,18 +129,75 @@
             var data = obj.data;
             if(obj.event === 'del'){
                 layer.confirm('真的删除行么', function(index){
-                    obj.del();
-                    layer.close(index);
+                    $.ajax({
+                        url: "${ctx}/delById",
+                        type: "post",
+                        async:false,
+                        data: JSON.stringify(data),
+                        contentType: "application/json; charset=utf-8",
+                        success: function (res) {
+                            if (res.succeed){
+                                obj.del();
+                                layer.close(index);
+                                tableIns.reload({
+                                    elem: '#test'
+                                    ,url:'${ctx}/joke'
+                                    //,where: data.field
+                                    ,page: {
+                                        //curr: 1 //重新从第 1 页开始
+                                    }
+                                    ,done: function(res, curr, count){
+                                        layer.closeAll();
+                                    }
+                                });
+                                layer.alert(res.msg, {icon: 1});
+                            } else {
+                                layer.alert(res.msg, {icon: 5});
+                            }
+                        },
+                        error: function () {
+                            layer.alert('操作失败,请联系管理员！', {icon: 5});
+                        }
+                    });
                 });
             } else if(obj.event === 'edit'){
                 layer.prompt({
                     formType: 2
-                    ,value: data.email
+                    ,value: data.content
                 }, function(value, index){
-                    obj.update({
-                        email: value
+                    $.ajax({
+                        url: "${ctx}/updateContent",
+                        type: "post",
+                        async:false,
+                        data: JSON.stringify({id:data.id,content:value}),
+                        contentType: "application/json; charset=utf-8",
+                        success: function (res) {
+                            if (res.succeed){
+                                tableIns.reload({
+                                    elem: '#test'
+                                    ,url:'${ctx}/joke'
+                                    //,where: data.field
+                                    ,page: {
+                                        //curr: 1 //重新从第 1 页开始
+                                    }
+                                    ,done: function(res, curr, count){
+                                        layer.closeAll();
+                                    }
+                                });
+                                //更新内容
+                                obj.update({
+                                    content: value
+                                });
+                                layer.close(index);
+                                layer.alert(res.msg, {icon: 1});
+                            } else {
+                                layer.alert(res.msg, {icon: 5});
+                            }
+                        },
+                        error: function () {
+                            layer.alert('操作失败,请联系管理员！', {icon: 5});
+                        }
                     });
-                    layer.close(index);
                 });
             }
         });
