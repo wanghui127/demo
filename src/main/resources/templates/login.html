@@ -2,7 +2,7 @@
 <html lang="en"  >
 <head>
     <meta charset="utf-8">
-    <title>暂时不知道叫啥系统</title>
+    <title>${applicationName!''}</title>
     <#assign ctx="${requestContext.contextPath}"/>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -20,7 +20,7 @@
 <body>
 <div class="header">
     <div class="header-title">
-        <span class="header-title-name">暂时不知道叫啥系统</span>
+        <span class="header-title-name">${applicationName!''}</span>
         <a class="header-btn">说明</a>
     </div>
 </div>

@@ -3,7 +3,11 @@ package com.example.demo.controller.joke;
 import com.example.demo.utils.CodeUtil;
 import com.example.demo.utils.JsonResult;
 import com.example.demo.utils.JsonResultUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,7 +41,10 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class GetCode  extends JsonResultUtil{
 
+    public static final Logger LOGGER = LoggerFactory.getLogger(GetCode.class);
 
+    @Value("${spring.application.name}")
+    protected String applicationName;// 系统名称
     /** 
     * @Description:  登陆页面
     * @Param:  
@@ -47,7 +54,9 @@ public class GetCode  extends JsonResultUtil{
     * @Time: 13:54 
     */ 
     @RequestMapping("/login")
-    public String login(){
+    public String login(Model model){
+        LOGGER.info("applicationName:"+applicationName);
+        model.addAttribute("applicationName",applicationName);
         return "login";
     }
 

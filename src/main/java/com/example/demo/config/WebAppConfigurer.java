@@ -13,10 +13,18 @@ public class WebAppConfigurer implements WebMvcConfigurer  {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //登录拦截的管理器
-        registry.addInterceptor(loginInterceptor).addPathPatterns("/**").excludePathPatterns("/","/login", "/getCode","/checkCode","/static/**");
+        registry.addInterceptor(loginInterceptor).addPathPatterns("/**").excludePathPatterns("/test/**","/","/login", "/getCode","/checkCode","/static/**");
         WebMvcConfigurer.super.addInterceptors(registry);
     }
 
+    /** 
+    * @Description:  放开静态资源不拦截(上下两处都需要写，也不知道为啥)
+    * @Param:
+    * @return:  
+    * @Author: Hui.Wang 
+    * @Date: 2019/6/23 0023 
+    * @Time: 21:00 
+    */ 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
