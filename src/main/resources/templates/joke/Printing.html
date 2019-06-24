@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"  >
+<head>
+    <#assign ctx="${requestContext.contextPath}"/>
+    <meta charset="UTF-8">
+    <title>打印测试</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <script type="text/javascript" src="${ctx}/layui/layui.js" ></script>
+    <link rel='stylesheet' href='${ctx}/layui/css/layui.css'>
+    <script type="text/javascript" src="${ctx}/jq/jquery-3.4.1.js"></script>
+    <script type="text/javascript" src="${ctx}/js/LodopFuncs.js" ></script>
+</head>
+<body>
+<object id="LODOP_OB"
+        classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width="0"
+        height="0">
+    <embed id="LODOP_EM" type="application/x-print-lodop" width="0"
+           height="0"></embed>
+</object>
+<a href="#" onclick="prn1_preview();">打印设计执行一个正常</a><br>
+
+
+</body>
+<script>
+    var LODOP; //声明为全局变量
+    function prn1_preview() {
+        alert(document.getElementById("toolbarDemo").innerHTML);
+        CreateOneFormPage();
+        LODOP.PRINT_DESIGN();
+    };
+    function CreateOneFormPage(){
+        LODOP=getLodop();
+        LODOP.PRINT_INIT("打印控件功能演示_Lodop功能_表单一");
+        LODOP.SET_PRINT_STYLE("FontSize",18);
+        LODOP.SET_PRINT_STYLE("Bold",1);
+        LODOP.ADD_PRINT_TEXT(50,231,260,39,"打印页面部分内容");
+        LODOP.ADD_PRINT_HTM(88,200,350,600,document.getElementById("test").innerHTML);
+    };
+</script>
+</html>
