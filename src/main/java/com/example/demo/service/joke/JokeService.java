@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 import java.util.Map;
 
-public interface JokeService {
+public  interface  JokeService {
     //分页查询所有数据
     int selectCount(Map<String, String> params);
 
@@ -21,4 +21,7 @@ public interface JokeService {
 
     //插入数据
     void insertJoke(Joke joke);
+
+    //随机获取一条
+    Joke getOneRand();
 }

@@ -21,11 +21,11 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {       //请求进入这个拦截器
         HttpSession session = request.getSession();
-        if(session.getAttribute("user") == null){       //判断session中有没有user信息
+        /*if(session.getAttribute("user") == null){       //判断session中有没有user信息
             System.out.println("进入拦截器");
             response.sendRedirect(request.getContextPath()+"/login");     //没有user信息的话进行路由重定向
             return false;
-        }
+        }*/
         return true;        //有的话就继续操作
     }
 

@@ -42,4 +42,9 @@ public class JokeServiceImpl implements JokeService {
     public void insertJoke(Joke joke) {
          jokeMapper.insertJoke(joke);
     }
+
+    @Override
+    public Joke getOneRand() {
+        return jokeMapper.getOneRand();
+    }
 }

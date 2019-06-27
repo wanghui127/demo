@@ -32,4 +32,16 @@
     <insert id="insertJoke"  useGeneratedKeys="true" keyProperty="id" parameterType="com.example.demo.entity.joke.Joke">
       INSERT INTO joke (content) VALUES (#{content})
     </insert>
+
+
+    <select id="getOneRand" resultType="com.example.demo.entity.joke.Joke">
+        <!--高效随机取一条数据-->
+        SELECT
+        q1.*
+        FROM joke AS q1 JOIN
+        (SELECT ROUND(RAND() * ((SELECT MAX(id) FROM joke)-
+        (SELECT MIN(id) FROM joke))+(SELECT MIN(id) FROM joke)) AS id) AS q2
+        WHERE q1.id >= q2.id
+        ORDER BY q1.id LIMIT 1;
+    </select>
 </mapper>

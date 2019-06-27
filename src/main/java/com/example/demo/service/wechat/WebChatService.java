@@ -49,7 +49,7 @@ public class WebChatService {
 
                 // 用map集合封装
                 replyMap.put("MsgType", MessageType.RESP_MESSAGE_TYPE_TEXT);
-                replyMap.put("Content", "您发送的是："+msgContent);
+                replyMap.put("Content", map.get("jokeContent"));
                 respXml = XmlUtil.xmlFormat(replyMap, true);
             } else if (MsgType.equals(MessageType.IMAGE_MESSAGE)) {
                 // 这里回复图片 或者图文消息 以图文消息为例
@@ -126,7 +126,7 @@ public class WebChatService {
             if (eventType.equals(MessageType.EVENT_TYPE_SUBSCRIBE)) {// 关注
                 // 用map集合封装
                 replyMap.put("MsgType", MessageType.RESP_MESSAGE_TYPE_TEXT);
-                replyMap.put("Content", "哎呦不错哦，挺有眼光的！");
+                replyMap.put("Content", "哎呦不错哦，挺有眼光的！回复关键字“笑话”，获取爆笑笑话！");
                 respXml = XmlUtil.xmlFormat(replyMap, true);
             }
             if (eventType.equals(MessageType.EVENT_TYPE_UNSUBSCRIBE)) {// 取消关注

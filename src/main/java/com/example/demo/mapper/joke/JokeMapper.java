@@ -24,4 +24,8 @@ public interface JokeMapper {
 
     //插入数据
     void insertJoke(Joke joke);
+
+    //随机获取一条
+    //<!--高效随机取一条数据-->
+    Joke getOneRand();
 }
