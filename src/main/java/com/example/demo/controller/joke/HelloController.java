@@ -41,6 +41,12 @@ public class HelloController extends JsonResultUtil{
         return "joke/jokeList";
     }
 
+    //滚动
+    @RequestMapping("/gundong")
+    public String gundong(){
+        return "/gundong";
+    }
+
 
     /** 
     * @Description:  数据库连接测试

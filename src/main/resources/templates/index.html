@@ -1,11 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="en"  >
 <head>
-    <meta charset="UTF-8"/>
-    <title>Insert title here</title>
-
+    <#assign ctx="${requestContext.contextPath}"/>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <script type="text/javascript" src="${ctx}/layui/layui.js" ></script>
+    <link rel='stylesheet' href='${ctx}/layui/css/layui.css'>
+    <script type="text/javascript" src="${ctx}/jq/jquery-3.4.1.js"></script>
 </head>
 <body>
-<h1>this is the hello.html in templates</h1>
+<!--轮播图-->
+<div class="layui-row layui-col-space12" id="_content"  style="padding-top: 5%">
+    <div class="layui-col-md1"></div>
+    <div class="layui-col-md10">
+        <div class="layui-carousel" id="test1">
+            <div carousel-item="">
+                <div><img src="${ctx}/images/Ghostknife/gk1.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk2.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk3.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk4.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk5.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk6.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk7.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk8.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk9.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk10.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk11.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk12.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk13.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk14.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk15.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk16.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk17.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk18.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk19.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk20.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk21.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk22.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk23.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk24.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk25.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk26.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk27.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk28.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk29.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk30.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk31.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk32.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk33.jpg"></div>
+                <div><img src="${ctx}/images/Ghostknife/gk34.jpg"></div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md1"></div>
+</div>
 </body>
+<script >
+    layui.use(['table','laytpl','carousel'], function() {
+            var $ = layui.$, admin = layui.admin,
+                layer = layui.layer, form = layui.form,
+                jquery = layui.jquery, table = layui.table,
+                laytpl = layui.laytpl,carousel =layui.carousel;
+
+                //图片轮播
+                carousel.render({
+                    elem: '#test1'
+                    ,width: '100%'
+                    ,height: '440px'
+                    ,full:true//是否全屏轮播
+                    ,anim:'default'//轮播切换动画方式，可选值为：default（左右切换）updown（上下切换）fade（渐隐渐显切换）
+                    ,autoplay:true//开启轮播
+                    ,interval: 3000
+                    ,index:0//初始开始的条目索引，默认0
+                    ,arrow:'hover'//切换箭头默认显示状态，可选值为：hover（悬停显示）always（始终显示）none（始终不显示）
+                    ,indicator:'inside'//指示器位置，可选值为：inside（容器内部）outside（容器外部）none（不显示）如果设定了 anim:'updown'，该参数将无效
+                    ,trigger:'click'//指示器的触发事件,默认click
+                });
+
+    })
+</script>
 </html>
