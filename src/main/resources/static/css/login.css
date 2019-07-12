@@ -16,12 +16,13 @@ html,body,#LAY_app{height:100%;}
 .header {width: 940px;margin: 0 auto}
 .header-title {height:50px;line-height: 50px;padding: 30px 110px 14px 0;}
 .header-title-name {color: #258ec8;font-weight: 500;font-size: 28px;}
-.header-btn:before{content: '';width: 16px;height: 16px;display: inline-block;background:url(../images/write.png) center center no-repeat;vertical-align: middle;margin-right: 6px;}
+/*.header-btn:before{content: '';width: 16px;height: 16px;display: inline-block;background:url(../images/write.png) center center no-repeat;vertical-align: middle;margin-right: 6px;}*/
 .header-btn{float: right;border:1px solid #44aee8;border-radius: 4px;cursor:pointer;color: #44aee8;height: 32px;line-height: 32px;padding: 0 20px; margin-top: 9px;}
 .header-btn:hover{color: #44aee8;}
-.main {height: 450px;background: url("../images/login_bg02.png") no-repeat center center;background-size: cover;}
+/*.main {height: 450px;background: url("../images/login_bg02.png") no-repeat center center;background-size: cover;}*/
+.main {height: 100%;background: url("../images/Ghostknife/gk14.jpg") no-repeat center center;background-size: cover}
 .main .main-box{width: 1100px;margin:0 auto;overflow: hidden;height: 100%;}
-.left-bg{float: left;width: 554px;height: 100%;background: url(../images/left_loginbg.png) center center no-repeat}
+/*.left-bg{float: left;width: 554px;height: 100%;background: url(../images/left_loginbg.png) center center no-repeat}*/
 .main .login-con{width: 330px; float: right;margin-top: 40px;margin-right: 160px;}
 .login-con .layui-form-checkbox[lay-skin=primary]:hover i {border-color: #0cb9a9;color: #fff;}
 .login-con  .layui-form-checked[lay-skin=primary] i {border-color: #0cb9a9;background-color: #0cb9a9;color: #fff;}
