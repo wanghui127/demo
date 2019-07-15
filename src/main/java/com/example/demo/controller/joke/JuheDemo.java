@@ -54,7 +54,7 @@ public class JuheDemo {
         String url = "http://v.juhe.cn/joke/content/text.php";//请求接口地址
         Map params = new HashMap();//请求参数
         params.put("page", "");//当前页数,默认1
-        params.put("pagesize", "");//每次返回条数,默认1,最大20
+        params.put("pagesize", "20");//每次返回条数,默认1,最大20
         params.put("key", APPKEY);//您申请的key
 
         try {
@@ -62,7 +62,9 @@ public class JuheDemo {
             System.err.println(result);
             JSONObject object = JSONObject.fromObject(result);
             if (object.getInt("error_code") == 0) {
-                System.out.println(object.get("result"));
+                //Object resultList = object.get("result");
+
+                System.out.println(JSONObject.fromObject(object.get("result")).getJSONArray("data"));
             } else {
                 System.out.println(object.get("error_code") + ":" + object.get("reason"));
             }

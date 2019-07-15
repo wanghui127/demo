@@ -4,9 +4,40 @@
     <meta charset="UTF-8"/>
     <title>Title</title>
     <script type="text/javascript" src="demo/jq/jquery-3.4.1.js"></script>
+    <style>
+        .text{
+            background-image: -webkit-linear-gradient(left,blue, #337fff 10%,#cc00ff 20%,#CC00CC 30%, #CCCCFF 40%, #00FFFF 50%,#CCCCFF 60%,#CC00CC 70%,#CC00FF 80%,#66FFFF 90%,blue 100%);
+            -webkit-text-fill-color: transparent;/* 将字体设置成透明色 */
+            -webkit-background-clip: text;/* 裁剪背景图，使文字作为裁剪区域向外裁剪 */
+            -webkit-background-size: 200% 100%;
+            -webkit-animation: masked-animation 4s linear infinite;
+            font-size: 20px;
+            text-align: left;
+        }
+        @keyframes masked-animation {
+            0% {
+                background-position: 0  0;
+            }
+            100% {
+                background-position: -100%  0;
+            }
+        }
+    </style>
 </head>
 <body>
-您好,这是邮件模板,<br/>
-<p>接收到的数据为：[[${id}]]    [[${name}]]</p>
+
+<!--<p>接收到的数据为：[[${id}]]    [[${name}]]</p>-->
+        <div class="text">
+            <p>[[${headContent}]]</p>
+        </div>
+
+        <ul th:each="content : ${content}">
+            <li th:text="${content}"></li>
+        </ul>
+
+        <div class="text">
+             <p>[[${endContent}]]</p>
+        </div>
+
 </body>
 </html>

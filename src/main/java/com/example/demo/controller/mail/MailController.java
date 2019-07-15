@@ -1,4 +1,4 @@
-package com.example.demo.controller.Mail;
+package com.example.demo.controller.mail;
 
 import com.example.demo.entity.mail.Mail;
 import org.slf4j.Logger;
