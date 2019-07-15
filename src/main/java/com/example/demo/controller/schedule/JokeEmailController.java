@@ -50,7 +50,7 @@ public class JokeEmailController {
     /**
      * 每天早上6点40执行
      */
-    @Scheduled(cron = "0 40 6 ? * *")
+    @Scheduled(cron = "0 40 7 ? * *")
     public  void sendJokeEmail() {
         String from  = "1360907366@qq.com";
         //本人
