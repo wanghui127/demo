@@ -57,7 +57,7 @@ public class JokeEmailController {
         String to = "1360907366@qq.com";
         this.sendJokeEmail(from,to);
 
-        //王慧
+        //wh
         String towh = "653003583@qq.com";
         //this.sendJokeEmail(from,towh);
 
