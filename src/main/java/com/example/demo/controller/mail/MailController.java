@@ -1,6 +1,7 @@
 package com.example.demo.controller.mail;
 
 import com.example.demo.entity.mail.Mail;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.thymeleaf.context.Context;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/mail")
@@ -134,4 +136,30 @@ public class MailController {
         return "发送成功!";
     }
 
+
+    public static void main(String[] args) {
+        List<Integer> list = new ArrayList<Integer>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(4);
+        list.add(5);
+        //list.forEach(obj -> System.out.println(obj));
+
+        DateTime dt = new DateTime();
+
+        //System.out.println(dt.getHourOfDay());
+        String month2 = dt.monthOfYear().getAsText();
+        String day2 = dt.dayOfWeek().getAsShortText();
+        String day3 = dt.dayOfWeek().getAsShortText(Locale.CHINESE); // 以指定格式获取
+        System.out.println(month2);
+        System.out.println(day2);
+        System.out.println(day3);
+        System.out.println(dt.toString("yyyy-MM-dd HH:mm:ss"));
+
+        Date date = dt.toDate();//转为Ddate
+        Calendar calendar = dt.toCalendar(Locale.CHINESE);//转为Calendar
+
+        dt.year().isLeap();//判断是否是闰年
+    }
 }

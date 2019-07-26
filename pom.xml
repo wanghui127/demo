@@ -124,7 +124,7 @@
 			<version>1.4.1</version>
 		</dependency>
 
-
+		<!--发送邮件-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
@@ -133,6 +133,16 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
 		</dependency>
+
+
+		<!--joda-time时间日期处理-->
+		<!-- https://mvnrepository.com/artifact/joda-time/joda-time -->
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.10.3</version>
+		</dependency>
+
 
 	</dependencies>
 
