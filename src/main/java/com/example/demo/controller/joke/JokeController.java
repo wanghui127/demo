@@ -21,7 +21,7 @@ import java.util.Map;
  * @create: 2019-06-19 20:41
  **/
 @Controller
-public class HelloController extends JsonResultUtil{
+public class JokeController extends JsonResultUtil{
 
     @Autowired
     JokeService jokeService;

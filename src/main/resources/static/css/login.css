@@ -3,7 +3,7 @@ html,body,#LAY_app{height:100%;}
 
 #LAY-user-login,
 .layadmin-user-display-show{display: block !important;}
-.layadmin-user-login-main{width: 330px;box-sizing: border-box;background: #fff;padding: 20px 0;height:320px;border-bottom-left-radius: 4px;border-bottom-right-radius: 4px}
+.layadmin-user-login-main{width: 430px;box-sizing: border-box;background: #fff;padding: 20px 0;height:320px;border-bottom-left-radius: 4px;border-bottom-right-radius: 4px}
 .layadmin-user-login-box{  padding:0 20px;}
 .layadmin-user-login-header{text-align: center;}
 
@@ -20,10 +20,10 @@ html,body,#LAY_app{height:100%;}
 .header-btn{float: right;border:1px solid #44aee8;border-radius: 4px;cursor:pointer;color: #44aee8;height: 32px;line-height: 32px;padding: 0 20px; margin-top: 9px;}
 .header-btn:hover{color: #44aee8;}
 /*.main {height: 450px;background: url("../images/login_bg02.png") no-repeat center center;background-size: cover;}*/
-.main {height: 100%;background: url("../images/Ghostknife/gk14.jpg") no-repeat center center;background-size: cover}
+.main {height: 100%;background: url("../images/Ghostknife/20190321092207.jpg") no-repeat center center;background-size: cover}
 .main .main-box{width: 1100px;margin:0 auto;overflow: hidden;height: 100%;}
 /*.left-bg{float: left;width: 554px;height: 100%;background: url(../images/left_loginbg.png) center center no-repeat}*/
-.main .login-con{width: 330px; float: right;margin-top: 40px;margin-right: 160px;}
+.main .login-con{width: 430px; float: right;margin-top: 8%;margin-right: 0%;}
 .login-con .layui-form-checkbox[lay-skin=primary]:hover i {border-color: #0cb9a9;color: #fff;}
 .login-con  .layui-form-checked[lay-skin=primary] i {border-color: #0cb9a9;background-color: #0cb9a9;color: #fff;}
 .login-con .layui-btn{background-color: #44aee8;margin-top: 5px;}

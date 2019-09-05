@@ -3,6 +3,7 @@ package com.example.demo.config;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 /**
@@ -12,8 +13,8 @@ import java.io.Serializable;
  * @Time: $
  * @create: 2019-08-01 21:43
  **/
+@Component
 @Data
-@Configuration
 public class OSSConfig implements Serializable {
 
     private static final long serialVersionUID = -119396871324982279L;
@@ -47,7 +48,6 @@ public class OSSConfig implements Serializable {
      */
     @Value("${oss.bucketName}")
     private String bucketName;
-
 
 }
 

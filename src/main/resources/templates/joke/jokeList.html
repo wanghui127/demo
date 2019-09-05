@@ -26,7 +26,7 @@
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-group" style="margin-left: 20px;">
         <button class="layui-btn layui-btn" data-type="all" lay-event="getCheckData">
-            <i class="layui-icon">&#xe642;</i>审核
+            <i class="layui-icon">&#xe642;</i>查看
         </button>
         <button class="layui-btn layui-btn" data-type="all" lay-event="getCheckAdd">
             <i class="layui-icon">&#xe654;</i>新增
@@ -89,6 +89,7 @@
                             title: '请输入内容',
                             area: ['600px', '350px'] //自定义文本域宽高
                         }, function(value, index, elem){
+                            //这里还需要校验输入值是否为空或者是当前输入框的默认值
                             $.ajax({
                                 url: "${ctx}/insertOne",
                                 type: "post",
