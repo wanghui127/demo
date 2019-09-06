@@ -5,7 +5,6 @@
     <!--@mbg.generated-->
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="pic_src" jdbcType="VARCHAR" property="picSrc" />
     <result column="flag" jdbcType="INTEGER" property="flag" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
   </resultMap>
@@ -27,9 +26,9 @@
   </delete>
   <insert id="insert" parameterType="com.example.demo.entity.joke.JokeImage">
     <!--@mbg.generated-->
-    insert into image (id, title, pic_src, 
+    insert into image (id, title,
       flag, user_id)
-    values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{picSrc,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR},
       #{flag,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.example.demo.entity.joke.JokeImage">
@@ -41,9 +40,6 @@
       </if>
       <if test="title != null">
         title,
-      </if>
-      <if test="picSrc != null">
-        pic_src,
       </if>
       <if test="flag != null">
         flag,
@@ -58,9 +54,6 @@
       </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="picSrc != null">
-        #{picSrc,jdbcType=VARCHAR},
       </if>
       <if test="flag != null">
         #{flag,jdbcType=INTEGER},
@@ -77,9 +70,6 @@
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="picSrc != null">
-        pic_src = #{picSrc,jdbcType=VARCHAR},
-      </if>
       <if test="flag != null">
         flag = #{flag,jdbcType=INTEGER},
       </if>
@@ -93,7 +83,6 @@
     <!--@mbg.generated-->
     update image
     set title = #{title,jdbcType=VARCHAR},
-      pic_src = #{picSrc,jdbcType=VARCHAR},
       flag = #{flag,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}

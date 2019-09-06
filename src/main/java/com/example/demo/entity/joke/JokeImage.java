@@ -17,11 +17,6 @@ public class JokeImage {
     private String title;
 
     /**
-    * 图片地址
-    */
-    private String picSrc;
-
-    /**
     * 删除标志 0 正常   1删除
     */
     private Integer flag;
