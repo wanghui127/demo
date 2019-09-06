@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.joke.ImageFileMapper">
+  <resultMap id="BaseResultMap" type="com.example.demo.entity.joke.ImageFile">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="pic_src" jdbcType="VARCHAR" property="picSrc" />
+    <result column="flag" jdbcType="INTEGER" property="flag" />
+    <result column="image_id" jdbcType="VARCHAR" property="imageId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, pic_src, flag, image_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from image_file
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from image_file
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.demo.entity.joke.ImageFile" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into image_file (pic_src, flag, image_id
+      )
+    values (#{picSrc,jdbcType=VARCHAR}, #{flag,jdbcType=INTEGER}, #{imageId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.demo.entity.joke.ImageFile" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into image_file
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="picSrc != null">
+        pic_src,
+      </if>
+      <if test="flag != null">
+        flag,
+      </if>
+      <if test="imageId != null">
+        image_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="picSrc != null">
+        #{picSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="imageId != null">
+        #{imageId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.entity.joke.ImageFile">
+    <!--@mbg.generated-->
+    update image_file
+    <set>
+      <if test="picSrc != null">
+        pic_src = #{picSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="imageId != null">
+        image_id = #{imageId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.entity.joke.ImageFile">
+    <!--@mbg.generated-->
+    update image_file
+    set pic_src = #{picSrc,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=INTEGER},
+      image_id = #{imageId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
