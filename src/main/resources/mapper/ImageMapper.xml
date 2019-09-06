@@ -98,4 +98,16 @@
       user_id = #{userId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+
+
+  <select id="selectPage" resultMap="BaseResultMap" parameterType="map">
+    SELECT j.*
+    FROM image j
+    limit ${firstNum},${lastNum}
+  </select>
+
+  <select id="selectCount" parameterType="map" resultType="int">
+        SELECT COUNT(1)
+		FROM image
+    </select>
 </mapper>

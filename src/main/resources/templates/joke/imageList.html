@@ -11,8 +11,341 @@
     <script type="text/javascript" src="${ctx}/layui/layui.js" ></script>
     <link rel='stylesheet' href='${ctx}/layui/css/layui.css'>
     <script type="text/javascript" src="${ctx}/jq/jquery-3.4.1.js"></script>
+
 </head>
 <body>
+<!--表格内容-->
+<div class="layui-row layui-col-space12" id="_content" >
+    <div class="layui-col-md1"></div>
+    <div class="layui-col-md10">
+        <table class="layui-hide" id="test" lay-filter="test"></table>
+    </div>
+    <div class="layui-col-md1"></div>
+</div>
+<!--表格头部工具栏按钮-->
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-group" style="margin-left: 20px;">
+        <button class="layui-btn layui-btn" data-type="all" lay-event="getCheckData">
+            <i class="layui-icon">&#xe642;</i>查看
+        </button>
+        <button class="layui-btn layui-btn" data-type="all" lay-event="getCheckAdd">
+            <i class="layui-icon">&#xe654;</i>新增
+        </button>
+    </div>
+</script>
+<!--表格右侧工具栏按钮-->
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
 
+<!--新增页面，上传图片-->
+
+<div class="layui-upload" style="display: none" id="addUpload">
+
+    <div class="layui-inline">
+        <label class="layui-form-label" >标题：</label>
+        <div class="layui-input-block">
+            <textarea required lay-verify="required" placeholder="请输入" class="layui-textarea" autocomplete="off"></textarea>
+        </div>
+    </div>
+    <br>
+    <button type="button" class="layui-btn layui-btn-normal" id="imageUpload">选择多文件</button>
+    <div class="layui-upload-list">
+        <table class="layui-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>文件名</th>
+                    <th>大小</th>
+                    <th>图片预览</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="demoList"></tbody>
+        </table>
+    </div>
+    <button type="button" class="layui-btn" id="commitEnsure">开始上传</button>
+</div>
+
+<!--图片显示样式-->
+<style type="text/css">
+    td div.layui-table-cell{
+        height:100px;
+        line-height: 100px;
+        position: relative;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        box-sizing: border-box;
+        padding: 0px 15px;
+        overflow: hidden;
+    }
+</style>
+
+<!--图片显示与点击事件-->
+<script type="text/html" id="imagePrew">
+    {{#  if(d.picSrc != null){ }}
+    <div><img  src={{d.picSrc}}></div>
+    {{#  } else { }}
+    {{d.title}}(没有图片)
+    {{#  } }}
+</script>
 </body>
+<script >
+    layui.use(['table','laytpl','upload'], function() {
+        var $ = layui.$, admin = layui.admin, layer = layui.layer, form = layui.form, jquery = layui.jquery,
+            table = layui.table, laytpl = layui.laytpl,upload= layui.upload;
+        var tableIns = table.render({
+            elem: '#test'
+            , url: '${ctx}/image/image'
+            ,toolbar: '#toolbarDemo'
+            , defaultToolbar: ['filter']
+            ,method:'post'
+            //,width:parseInt(window.screen.width)*0.90
+            ,height: parseInt(window.screen.height)*0.70
+            , cols: [[
+                {type: 'radio', title: '选择', align: 'center', fixed: 'left',width:'5%'}
+                , {type: 'numbers', title: '序号', align: 'center', fixed: 'left',width:'5%'}
+                , {field: 'id', title: '主键', align: 'center',width:'6%'}
+                , {field: 'title', title: '标题', align: 'left',width:'30%'}
+                , {field: 'picSrc', title: '标题', align: 'left',width:'40%',templet:'#imagePrew'}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:'14%'}
+            ]]
+            , page: true
+            ,parseData: function(res){ //res 即为原始返回的数据
+                return {
+                    "code": res.status, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "count": res.total, //解析数据长度
+                    "data": res.data //解析数据列表
+                };
+            }
+        });
+
+        //头工具栏事件
+        table.on('toolbar(test)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch(obj.event){
+                case 'getCheckData':
+                    if(checkStatus.data == "" ){
+                        layer.msg("请选择一条数据",{icon: 6});
+                        return false;
+                    }
+                    //取到的是数组
+                    var data = checkStatus.data;
+                    var img = new Image();
+                    img.src = data[0].picSrc;
+                    layer.open({
+                        type: 1,
+                        title: data[0].title,
+                        //closeBtn: 0,
+                        shadeClose: true,
+                        area: [img.width, img.height], //宽高
+                        offset: 'auto',
+                        content: "<img alt="+"图片"+" title=" + "图片" + " src=" + img.src + " />"
+                    });
+                    break;
+                case 'getCheckAdd':
+                    layer.open({
+                        type: 1
+                        , title: "新增"
+                        , area: ['90%', '90%']
+                         ,offset: 'auto'
+                        , shade: 0.6
+                        , content: $("#addUpload")
+                    });
+                    /*layer.prompt({
+                        formType: 2,
+                        value: '请输入笑话内容',
+                        title: '请输入内容',
+                        area: ['600px', '350px'] //自定义文本域宽高
+                    }, function(value, index, elem){
+                        //这里还需要校验输入值是否为空或者是当前输入框的默认值
+                        $.ajax({
+                            url: "${ctx}/insertOne",
+                            type: "post",
+                            async:false,
+                            data: JSON.stringify({content:value}),
+                            contentType: "application/json; charset=utf-8",
+                            success: function (res) {
+                                if (res.succeed){
+                                    obj.del();
+                                    layer.close(index);
+                                    tableIns.reload({
+                                        elem: '#test'
+                                        ,url:'${ctx}/joke'
+                                        //,where: data.field
+                                        ,page: {
+                                            //curr: 1 //重新从第 1 页开始
+                                        }
+                                        ,done: function(res, curr, count){
+                                            layer.closeAll();
+                                        }
+                                    });
+                                    layer.alert(res.msg, {icon: 1});
+                                } else {
+                                    layer.alert(res.msg, {icon: 5});
+                                }
+                            },
+                            error: function () {
+                                layer.alert('操作失败,请联系管理员！', {icon: 5});
+                            }
+                        });
+                        layer.close(index);
+                    });*/
+                    break;
+            };
+        });
+
+        //监听行工具事件
+        table.on('tool(test)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'del'){
+                layer.confirm('真的删除行么', function(index){
+                    $.ajax({
+                        url: "${ctx}/delById",
+                        type: "post",
+                        async:false,
+                        data: JSON.stringify(data),
+                        contentType: "application/json; charset=utf-8",
+                        success: function (res) {
+                            if (res.succeed){
+                                obj.del();
+                                layer.close(index);
+                                tableIns.reload({
+                                    elem: '#test'
+                                    ,url:'${ctx}/joke'
+                                    //,where: data.field
+                                    ,page: {
+                                        //curr: 1 //重新从第 1 页开始
+                                    }
+                                    ,done: function(res, curr, count){
+                                        layer.closeAll();
+                                    }
+                                });
+                                layer.alert(res.msg, {icon: 1});
+                            } else {
+                                layer.alert(res.msg, {icon: 5});
+                            }
+                        },
+                        error: function () {
+                            layer.alert('操作失败,请联系管理员！', {icon: 5});
+                        }
+                    });
+                });
+            } else if(obj.event === 'edit'){
+                layer.prompt({
+                    formType: 2
+                    ,value: data.content
+                }, function(value, index){
+                    $.ajax({
+                        url: "${ctx}/updateContent",
+                        type: "post",
+                        async:false,
+                        data: JSON.stringify({id:data.id,content:value}),
+                        contentType: "application/json; charset=utf-8",
+                        success: function (res) {
+                            if (res.succeed){
+                                tableIns.reload({
+                                    elem: '#test'
+                                    ,url:'${ctx}/joke'
+                                    //,where: data.field
+                                    ,page: {
+                                        //curr: 1 //重新从第 1 页开始
+                                    }
+                                    ,done: function(res, curr, count){
+                                        layer.closeAll();
+                                    }
+                                });
+                                //更新内容
+                                obj.update({
+                                    content: value
+                                });
+                                layer.close(index);
+                                layer.alert(res.msg, {icon: 1});
+                            } else {
+                                layer.alert(res.msg, {icon: 5});
+                            }
+                        },
+                        error: function () {
+                            layer.alert('操作失败,请联系管理员！', {icon: 5});
+                        }
+                    });
+                });
+            }
+        });
+
+
+
+
+        //多文件列表示例
+        var demoListView = $('#demoList')
+            ,uploadListIns = upload.render({
+            elem: '#imageUpload'
+            ,url: '${ctx}/image/upload'
+            ,accept:'images'
+            ,acceptMime:'image/*'
+            ,auto:false//是否选完文件后自动上传。如果设定 false，那么需要设置 bindAction 参数来指向一个其它按钮提交上传
+            ,bindAction:'#commitEnsure'
+            ,data:{times:new Date().getDay()}
+            ,size:90000//设置文件最大可允许上传的大小，单位 KB。不支持ie8/9
+            ,multiple:true
+            ,number:9
+            ,choose: function(obj){
+                var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                //读取本地文件
+                obj.preview(function(index, file, result){
+                    var tr = $(['<tr id="upload-'+ index +'">'
+                        ,'<td>'+ index+'</td>'
+                        ,'<td>'+ file.name +'</td>'
+                        ,'<td><img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img"></td>'
+                        ,'<td>'+ (file.size/1014).toFixed(1) +'kb</td>'
+                        ,'<td>等待上传</td>'
+                        ,'<td>'
+                        ,'<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
+                        ,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+                        ,'</td>'
+                        ,'</tr>'].join(''));
+
+                    //单个重传
+                    tr.find('.demo-reload').on('click', function(){
+                        obj.upload(index, file);
+                    });
+
+                    //删除
+                    tr.find('.demo-delete').on('click', function(){
+                        delete files[index]; //删除对应的文件
+                        tr.remove();
+                        uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                    });
+
+                    demoListView.append(tr);
+                });
+            }
+            ,done: function(res, index, upload){
+                if(res.code == 0){ //上传成功
+                    var tr = demoListView.find('tr#upload-'+ index)
+                        ,tds = tr.children();
+                    tds.eq(4).html('<span style="color: #5FB878;">上传成功</span>');
+                    tds.eq(5).html(''); //清空操作
+                    console.log(res.message);
+                    return delete this.files[index]; //删除文件队列已经上传成功的文件
+                }
+                this.error(index, upload);
+            }
+            ,
+            allDone: function(obj){
+                console.log("全部上传完成");
+            }
+            ,error: function(index, upload){
+                var tr = demoListView.find('tr#upload-'+ index)
+                    ,tds = tr.children();
+                tds.eq(4).html('<span style="color: #FF5722;">上传失败</span>');
+                tds.eq(5).find('.demo-reload').removeClass('layui-hide'); //显示重传
+            }
+        });
+
+    });
+</script>
 </html>

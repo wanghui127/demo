@@ -1,6 +1,10 @@
 package com.example.demo.service.joke;
 
 import com.example.demo.entity.joke.JokeImage;
+
+import java.util.List;
+import java.util.Map;
+
 public interface ImageService{
 
      int deleteByPrimaryKey(String id);
@@ -19,5 +23,12 @@ public interface ImageService{
 
     
      int updateByPrimaryKey(JokeImage record);
+
+
+     //分页查询所有数据
+     int selectCount(Map<String, String> params);
+
+     //分页查询所有数据
+     List<JokeImage> selectPage(Map<String, String> params);
 
 }
