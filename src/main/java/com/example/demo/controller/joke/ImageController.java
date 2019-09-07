@@ -3,9 +3,14 @@ package com.example.demo.controller.joke;
 import com.example.demo.config.OSSConfig;
 import com.example.demo.entity.joke.JokeImage;
 import com.example.demo.service.joke.ImageService;
+import com.example.demo.service.joke.JokeService;
 import com.example.demo.utils.JsonResult;
 import com.example.demo.utils.JsonResultUtil;
+import com.example.demo.utils.OSSBootUtil;
+import com.example.demo.utils.UUIDUtils;
 import net.sf.json.JSON;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +39,7 @@ public class ImageController extends JsonResultUtil {
     private ImageService imageService;
 
     /**
-     * 图片列表页面
+     * 图片列表页面跳转
      */
     @RequestMapping("/imageList")
     public String jokeList(){
@@ -42,7 +47,11 @@ public class ImageController extends JsonResultUtil {
     }
 
 
-
+    /**
+     * 图片列表分页
+     * @param request
+     * @return
+     */
     @PostMapping(value = "/image")
     @ResponseBody
     public JsonResult selectImage(HttpServletRequest request){
@@ -64,20 +73,44 @@ public class ImageController extends JsonResultUtil {
 
     /**
      * 上传图片和提交表单
-     * @param multipartFiles
-     * @param params
+     * @param multipartFile
+     * @param
      * @param request
      * @return
      */
     @PostMapping("/upload")
     @ResponseBody
-    public JsonResult uploadImage(@RequestParam("file") MultipartFile[] multipartFiles, Map<String, String> params, HttpServletRequest request){
-        System.err.println(multipartFiles.length+";"+multipartFiles[0].getOriginalFilename()+request.getParameter("times"));
-
-        return this.successRender().add("message",multipartFiles[0].getOriginalFilename());
+    public JsonResult uploadImage(@RequestParam("file") MultipartFile multipartFile,HttpServletRequest request){
+        System.err.println(multipartFile.getOriginalFilename());
+        String picsrc  = "";
+        try {
+            picsrc =  OSSBootUtil.upload(ossConfig,multipartFile,"joke/image");
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.error("上传图片错误！",e.getMessage());
+            return this.failRender();
+        }
+        return this.successRender().add("message",picsrc);
     }
 
 
+    @PostMapping("/insertImage")
+    @ResponseBody
+    public JsonResult insertImage(@RequestBody JSONObject params, HttpServletRequest request){
+        Object[] images=params.getJSONArray("resultImages").toArray();
+        for (Object a: images) {
+            System.out.println(a);
+        }
+
+        String imageId = UUIDUtils.getUUID();
+        JokeImage jokeImage = new JokeImage();
+        jokeImage.setId(imageId);
+        jokeImage.setFlag(0);
+        jokeImage.setTitle("title");
+        jokeImage.setUserId("");
+        imageService.insert(jokeImage);
+        return this.successRender();
+    }
 
 
 }
