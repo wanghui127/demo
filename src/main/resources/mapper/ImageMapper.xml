@@ -6,15 +6,17 @@
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="flag" jdbcType="INTEGER" property="flag" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, title, pic_src, flag, user_id
+    id, title, flag, create_time, update_time, user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--@mbg.generated-->
-    select 
+    select
     <include refid="Base_Column_List" />
     from image
     where id = #{id,jdbcType=VARCHAR}
@@ -26,10 +28,12 @@
   </delete>
   <insert id="insert" parameterType="com.example.demo.entity.joke.JokeImage">
     <!--@mbg.generated-->
-    insert into image (id, title,
-      flag, user_id)
-    values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR},
-      #{flag,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR})
+    insert into image (id, title, flag,
+    create_time, update_time, user_id
+    )
+    values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{flag,jdbcType=INTEGER},
+    #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{userId,jdbcType=VARCHAR}
+    )
   </insert>
   <insert id="insertSelective" parameterType="com.example.demo.entity.joke.JokeImage">
     <!--@mbg.generated-->
@@ -44,6 +48,12 @@
       <if test="flag != null">
         flag,
       </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
       <if test="userId != null">
         user_id,
       </if>
@@ -57,6 +67,12 @@
       </if>
       <if test="flag != null">
         #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="userId != null">
         #{userId,jdbcType=VARCHAR},
@@ -73,6 +89,12 @@
       <if test="flag != null">
         flag = #{flag,jdbcType=INTEGER},
       </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="userId != null">
         user_id = #{userId,jdbcType=VARCHAR},
       </if>
@@ -83,8 +105,10 @@
     <!--@mbg.generated-->
     update image
     set title = #{title,jdbcType=VARCHAR},
-      flag = #{flag,jdbcType=INTEGER},
-      user_id = #{userId,jdbcType=VARCHAR}
+    flag = #{flag,jdbcType=INTEGER},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    update_time = #{updateTime,jdbcType=TIMESTAMP},
+    user_id = #{userId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 

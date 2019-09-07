@@ -6,7 +6,7 @@ import com.example.demo.entity.joke.ImageFile;
 import com.example.demo.mapper.joke.ImageFileMapper;
 public interface ImageFileService{
 
-   int deleteByPrimaryKey(Integer id);
+   int deleteByPrimaryKey(String id);
 
     
    int insert(ImageFile record);
@@ -15,7 +15,7 @@ public interface ImageFileService{
     int insertSelective(ImageFile record);
 
     
-    ImageFile selectByPrimaryKey(Integer id);
+    ImageFile selectByPrimaryKey(String id);
 
     
     int updateByPrimaryKeySelective(ImageFile record);

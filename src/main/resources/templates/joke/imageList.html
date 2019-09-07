@@ -42,31 +42,34 @@
 <!--新增页面，上传图片-->
 
 <div class="layui-upload" style="display: none" id="addUpload">
-
-    <div class="layui-inline">
-        <label class="layui-form-label" >标题：</label>
-        <div class="layui-input-block">
-            <textarea required lay-verify="required" placeholder="请输入" class="layui-textarea" autocomplete="off"></textarea>
+    <form class="layui-form"  id="searchForm"  target="_iframe" method="post" lay-filter="form-filter-org">
+        <div class="layui-inline">
+            <label class="layui-form-label" >标题：</label>
+            <div class="layui-input-block">
+                <textarea required lay-verify="required" id="title" name="title" placeholder="请输入" class="layui-textarea" autocomplete="off"></textarea>
+            </div>
         </div>
-    </div>
-    <br>
-    <button type="button" class="layui-btn layui-btn-normal" id="imageUpload">选择多文件</button>
-    <div class="layui-upload-list">
-        <table class="layui-table">
-            <thead>
-                <tr>
-                    <th>序号</th>
-                    <th>文件名</th>
-                    <th>大小</th>
-                    <th>图片预览</th>
-                    <th>状态</th>
-                    <th>操作</th>
-                </tr>
-            </thead>
-            <tbody id="demoList"></tbody>
-        </table>
-    </div>
-    <button type="button" class="layui-btn" id="commitEnsure">开始上传</button>
+        <br>
+        <button type="button" class="layui-btn layui-btn-normal" id="imageUpload">选择多文件</button>
+        <div class="layui-upload-list">
+            <table class="layui-table">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>文件名</th>
+                        <th>大小</th>
+                        <th>图片预览</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="demoList"></tbody>
+            </table>
+        </div>
+        <button type="button" class="layui-btn" id="commitEnsure"  lay-filter="commitEnsure" lay-submit="">开始上传</button>
+        <button type="button" class="layui-btn" id="uploadBtn"  style="display: none">开始上传</button>
+    </form>
+    <iframe id="id_iframe" name="id_iframe" style="display:none;"></iframe>
 </div>
 
 <!--图片显示样式-->
@@ -97,6 +100,10 @@
         var $ = layui.$, admin = layui.admin, layer = layui.layer, form = layui.form, jquery = layui.jquery,
             table = layui.table, laytpl = layui.laytpl,upload= layui.upload;
 
+        form.on('submit(commitEnsure)', function(data){
+            $('#uploadBtn').click();
+        });
+
         var tableIns = table.render({
             elem: '#test'
             , url: '${ctx}/image/image'
@@ -108,10 +115,10 @@
             , cols: [[
                 {type: 'radio', title: '选择', align: 'center', fixed: 'left',width:'5%'}
                 , {type: 'numbers', title: '序号', align: 'center', fixed: 'left',width:'5%'}
-                , {field: 'id', title: '主键', align: 'center',width:'6%'}
-                , {field: 'title', title: '标题', align: 'left',width:'30%'}
+                , {field: 'id', title: '主键', align: 'center',width:'25%'}
+                , {field: 'title', title: '标题', align: 'left',width:'55%'}
                 //, {field: 'picSrc', title: '标题', align: 'left',width:'40%',templet:'#imagePrew'}
-                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:'14%'}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:'10%'}
             ]]
             , page: true
             ,parseData: function(res){ //res 即为原始返回的数据
@@ -254,7 +261,7 @@
             ,accept:'images'
             ,acceptMime:'image/*'
             ,auto:false//是否选完文件后自动上传。如果设定 false，那么需要设置 bindAction 参数来指向一个其它按钮提交上传
-            ,bindAction:'#commitEnsure'
+            ,bindAction:'#uploadBtn'
             //,data:{times:$('#imageId').val()}
             ,size:30000//设置文件最大可允许上传的大小，单位 KB。不支持ie8/9
             ,multiple:true
@@ -294,7 +301,6 @@
                 //console.log("before:"+JSON.stringify(obj))
             }
             ,done: function(res, index, upload){
-                console.log("done:"+JSON.stringify(index)+JSON.stringify(res));
                 images.push(index);
                 imageMap.set(index.toString(),res.message);
                 if(res.code == 0){ //上传成功
@@ -314,44 +320,31 @@
                 for (var i=0;i<images.length;i++){
                     resultImage.push(imageMap.get(images[i]));
                 }
+                var titles = $("#title").val();
                 if (obj.total == obj.successful){
                     $.ajax({
                         url: "${ctx}/image/insertImage",
                         type: "post",
                         async:false,
-                        data: JSON.stringify({resultImages:resultImage}),
+                        data: JSON.stringify({resultImages:resultImage,title:titles}),
                         contentType: "application/json; charset=utf-8",
                         success: function (res) {
-                            /*if (res.succeed){
+                            if (res.succeed){
                                 tableIns.reload({
-                                    elem: '#test'
-                                    ,url:'${ctx}/joke'
-                                    //,where: data.field
-                                    ,page: {
-                                        //curr: 1 //重新从第 1 页开始
-                                    }
-                                    ,done: function(res, curr, count){
+                                    done: function(res, curr, count){
                                         layer.closeAll();
+                                        layer.msg('上传成功', {
+                                            icon: 6,
+                                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                                        }, function(){
+                                            //移除页面元素
+                                            $("#demoList tr").remove();
+                                        });
                                     }
                                 });
-                                //更新内容
-                                obj.update({
-                                    content: value
-                                });
-                                layer.close(index);
-                                layer.alert(res.msg, {icon: 1});
                             } else {
                                 layer.alert(res.msg, {icon: 5});
-                            }*/
-
-                            layer.close(layer.index);
-                            layer.msg('上传成功', {
-                                icon: 6,
-                                time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                            }, function(){
-                                //移除页面元素
-                                $("#demoList tr").remove();
-                            });
+                            }
 
                         },
                         error: function () {

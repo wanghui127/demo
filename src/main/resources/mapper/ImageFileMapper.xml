@@ -3,54 +3,76 @@
 <mapper namespace="com.example.demo.mapper.joke.ImageFileMapper">
   <resultMap id="BaseResultMap" type="com.example.demo.entity.joke.ImageFile">
     <!--@mbg.generated-->
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="pic_src" jdbcType="VARCHAR" property="picSrc" />
     <result column="flag" jdbcType="INTEGER" property="flag" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="image_id" jdbcType="VARCHAR" property="imageId" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, pic_src, flag, image_id
+    id, pic_src, flag, create_time, update_time, image_id
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--@mbg.generated-->
     select 
     <include refid="Base_Column_List" />
     from image_file
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     <!--@mbg.generated-->
     delete from image_file
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.demo.entity.joke.ImageFile" useGeneratedKeys="true">
+  <insert id="insert" parameterType="com.example.demo.entity.joke.ImageFile">
     <!--@mbg.generated-->
-    insert into image_file (pic_src, flag, image_id
+    insert into image_file (id, pic_src, flag, 
+      create_time, update_time, image_id
       )
-    values (#{picSrc,jdbcType=VARCHAR}, #{flag,jdbcType=INTEGER}, #{imageId,jdbcType=VARCHAR}
+    values (#{id,jdbcType=VARCHAR}, #{picSrc,jdbcType=VARCHAR}, #{flag,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{imageId,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.demo.entity.joke.ImageFile" useGeneratedKeys="true">
+  <insert id="insertSelective" parameterType="com.example.demo.entity.joke.ImageFile">
     <!--@mbg.generated-->
     insert into image_file
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
       <if test="picSrc != null">
         pic_src,
       </if>
       <if test="flag != null">
         flag,
       </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
       <if test="imageId != null">
         image_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
       <if test="picSrc != null">
         #{picSrc,jdbcType=VARCHAR},
       </if>
       <if test="flag != null">
         #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="imageId != null">
         #{imageId,jdbcType=VARCHAR},
@@ -67,18 +89,26 @@
       <if test="flag != null">
         flag = #{flag,jdbcType=INTEGER},
       </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="imageId != null">
         image_id = #{imageId,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.example.demo.entity.joke.ImageFile">
     <!--@mbg.generated-->
     update image_file
     set pic_src = #{picSrc,jdbcType=VARCHAR},
       flag = #{flag,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
       image_id = #{imageId,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

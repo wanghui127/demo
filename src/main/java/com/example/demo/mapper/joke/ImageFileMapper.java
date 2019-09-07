@@ -5,13 +5,13 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface ImageFileMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(String id);
 
     int insert(ImageFile record);
 
     int insertSelective(ImageFile record);
 
-    ImageFile selectByPrimaryKey(Integer id);
+    ImageFile selectByPrimaryKey(String id);
 
     int updateByPrimaryKeySelective(ImageFile record);
 
