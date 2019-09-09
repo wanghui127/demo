@@ -115,7 +115,7 @@
 
   <select id="selectPage" resultMap="BaseResultMap" parameterType="map">
     SELECT j.*
-    FROM image j where flag = 0
+    FROM image j where flag = 0 order by j.create_time desc
     limit ${firstNum},${lastNum}
   </select>
 
