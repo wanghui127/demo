@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class ImageFileServiceImpl implements ImageFileService {
@@ -50,5 +51,10 @@ public class ImageFileServiceImpl implements ImageFileService {
     @Transactional
     public ImageFile selectByPrimaryKey(String id) {
         return imageFileMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public List<ImageFile> selectByImageIdOrderByCreateTimeDesc(String imageId) {
+        return imageFileMapper.selectByImageIdOrderByCreateTimeDesc(imageId);
     }
 }

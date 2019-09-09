@@ -1,9 +1,9 @@
 package com.example.demo.service.joke;
 
-import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
 import com.example.demo.entity.joke.ImageFile;
-import com.example.demo.mapper.joke.ImageFileMapper;
+
+import java.util.List;
+
 public interface ImageFileService{
 
    int deleteByPrimaryKey(String id);
@@ -22,5 +22,8 @@ public interface ImageFileService{
 
     
     int updateByPrimaryKey(ImageFile record);
+
+    //根据imageId查询多条记录
+    List<ImageFile> selectByImageIdOrderByCreateTimeDesc(String imageId);
 
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -60,5 +61,11 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public List<JokeImage> selectPage(Map<String, String> params) {
         return imageMapper.selectPage(params);
+    }
+
+    @Override
+    @Transactional
+    public int updateFlagAndUpdateTimeById(Integer updatedFlag, Date updatedUpdateTime, String id) {
+        return imageMapper.updateFlagAndUpdateTimeById(updatedFlag,updatedUpdateTime,id);
     }
 }

@@ -43,7 +43,7 @@
 
 <div class="layui-upload" style="display: none" id="addUpload">
     <form class="layui-form"  id="searchForm"  target="_iframe" method="post" lay-filter="form-filter-org">
-        <div class="layui-inline">
+        <div class="">
             <label class="layui-form-label" >标题：</label>
             <div class="layui-input-block">
                 <textarea required lay-verify="required" id="title" name="title" placeholder="请输入" class="layui-textarea" autocomplete="off"></textarea>
@@ -72,6 +72,29 @@
     <iframe id="id_iframe" name="id_iframe" style="display:none;"></iframe>
 </div>
 
+
+<!--查看页面-->
+<form class="layui-form"  id="viewOneForm"  target="_iframe" style="display: none"  lay-filter="form-filter-org">
+    <div class="">
+        <label class="layui-form-label" >标题：</label>
+        <div class="layui-input-block">
+            <textarea required lay-verify="required" id="viewTitle" name="viewTitle" placeholder="请输入" class="layui-textarea" autocomplete="off"></textarea>
+        </div>
+    </div>
+    <br>
+    <div class="layui-upload-list">
+        <table class="layui-table">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>图片预览</th>
+            </tr>
+            </thead>
+            <tbody id="viewList"></tbody>
+        </table>
+    </div>
+</form>
+
 <!--图片显示样式-->
 <style type="text/css">
     td div.layui-table-cell{
@@ -83,6 +106,14 @@
         box-sizing: border-box;
         padding: 0px 15px;
         overflow: hidden;
+    }
+</style>
+
+<!--查看图片弹出层，图片背景样式-->
+<style type="text/css">
+    .myskin{
+        background-color: transparent;/*背景透明*/
+        box-shadow: 0 0 0 rgba(0,0,0,0);/*前景无阴影*/
     }
 </style>
 
@@ -104,6 +135,7 @@
             $('#uploadBtn').click();
         });
 
+        //页面初始化加载表格
         var tableIns = table.render({
             elem: '#test'
             , url: '${ctx}/image/image'
@@ -116,7 +148,8 @@
                 {type: 'radio', title: '选择', align: 'center', fixed: 'left',width:'5%'}
                 , {type: 'numbers', title: '序号', align: 'center', fixed: 'left',width:'5%'}
                 , {field: 'id', title: '主键', align: 'center',width:'25%'}
-                , {field: 'title', title: '标题', align: 'left',width:'55%'}
+                , {field: 'title', title: '标题', align: 'center',width:'40%'}
+                , {field: 'createTime', title: '发布时间', align: 'center',width:'15%'}
                 //, {field: 'picSrc', title: '标题', align: 'left',width:'40%',templet:'#imagePrew'}
                 ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:'10%'}
             ]]
@@ -135,6 +168,7 @@
         table.on('toolbar(test)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id);
             switch(obj.event){
+                //查看
                 case 'getCheckData':
                     if(checkStatus.data == "" ){
                         layer.msg("请选择一条数据",{icon: 6});
@@ -142,7 +176,47 @@
                     }
                     //取到的是数组
                     var data = checkStatus.data;
-                    var img = new Image();
+                    $.ajax({
+                        url: "${ctx}/image/viewOne/"+data[0].id,
+                        type: "get",
+                        async:false,
+                        data: {},
+                        contentType: "application/json; charset=utf-8",
+                        success: function (res) {
+                            if (res.succeed){
+                                $('#viewTitle').val(data[0].title);
+                                $('#viewTitle').attr("disabled",true);
+                                var imageFiles = res.imageFiles;
+                                var imageFileTr = "";
+                                for (var i =0;i<imageFiles.length;i++){
+                                    imageFileTr = $(['<tr id="'+imageFiles[i].id+'">'
+                                        ,'<td>'+ i+'</td>'
+                                        ,'<td><img src="'+ imageFiles[i].picSrc +'" onclick="imgPrew(this)" class="layui-upload-img"></td>'
+                                        ,'</tr>'].join(''));
+                                    $('#viewList').append(imageFileTr);
+                                }
+
+                                layer.open({
+                                    type: 1
+                                    ,title: data[0].title
+                                    , area: ['90%', '90%']
+                                    ,offset: 'auto'
+                                    , shade: 0.6
+                                    , content: $("#viewOneForm")
+                                    ,end:function () {
+                                        //不管确认还是cancle，只要层被销毁都会执行的方法
+                                        $("#viewList tr").remove();
+                                    }
+                                });
+                            } else {
+                                layer.alert(res.msg, {icon: 5});
+                            }
+                        },
+                        error: function () {
+                            layer.alert('操作失败,请联系管理员！', {icon: 5});
+                        }
+                    });
+                    /*var img = new Image();
                     img.src = data[0].picSrc;
                     layer.open({
                         type: 1,
@@ -152,9 +226,10 @@
                         area: [img.width, img.height], //宽高
                         offset: 'auto',
                         content: "<img alt="+"图片"+" title=" + "图片" + " src=" + img.src + " />"
-                    });
+                    });*/
                     break;
                 case 'getCheckAdd':
+                    //新增
                     var index = layer.open({
                         type: 1
                         , title: "新增"
@@ -175,12 +250,13 @@
         table.on('tool(test)', function(obj){
             var data = obj.data;
             if(obj.event === 'del'){
+                //删除事件
                 layer.confirm('真的删除行么', function(index){
                     $.ajax({
-                        url: "${ctx}/delById",
-                        type: "post",
+                        url: "${ctx}/image/del/"+data.id,
+                        type: "get",
                         async:false,
-                        data: JSON.stringify(data),
+                        data: {},
                         contentType: "application/json; charset=utf-8",
                         success: function (res) {
                             if (res.succeed){
@@ -188,7 +264,7 @@
                                 layer.close(index);
                                 tableIns.reload({
                                     elem: '#test'
-                                    ,url:'${ctx}/joke'
+                                    ,url:'${ctx}/image/image'
                                     //,where: data.field
                                     ,page: {
                                         //curr: 1 //重新从第 1 页开始
@@ -362,5 +438,24 @@
         });
 
     });
+</script>
+<script>
+    //预览图片放大
+    function imgPrew(obj) {
+        var img = new Image();
+        img.src = obj.src;
+        layer.open({
+            type: 1,
+            title: false,
+            //closeBtn: 0,
+            shade: 0.6,
+            shadeClose: true,
+            area: ['90%', '90%'], //宽高
+            skin:'myskin',
+            offset:'auto',
+            shadeClose: true,
+            content: "<img alt="+"图片"+" title=" + "图片" + " src=" + img.src + " />"
+        });
+    }
 </script>
 </html>

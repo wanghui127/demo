@@ -2,6 +2,7 @@ package com.example.demo.service.joke;
 
 import com.example.demo.entity.joke.JokeImage;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -30,5 +31,8 @@ public interface ImageService{
 
      //分页查询所有数据
      List<JokeImage> selectPage(Map<String, String> params);
+
+     //删除（修改状态）
+     int updateFlagAndUpdateTimeById(Integer updatedFlag, Date updatedUpdateTime,String id);
 
 }

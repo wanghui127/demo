@@ -5,13 +5,7 @@ import com.example.demo.entity.joke.ImageFile;
 import com.example.demo.entity.joke.JokeImage;
 import com.example.demo.service.joke.ImageFileService;
 import com.example.demo.service.joke.ImageService;
-import com.example.demo.service.joke.JokeService;
-import com.example.demo.utils.JsonResult;
-import com.example.demo.utils.JsonResultUtil;
-import com.example.demo.utils.OSSBootUtil;
-import com.example.demo.utils.UUIDUtils;
-import net.sf.json.JSON;
-import net.sf.json.JSONArray;
+import com.example.demo.utils.*;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,37 +39,38 @@ public class ImageController extends JsonResultUtil {
      * 图片列表页面跳转
      */
     @RequestMapping("/imageList")
-    public String jokeList(){
+    public String jokeList() {
         return "joke/imageList";
     }
 
 
     /**
      * 图片列表分页
+     *
      * @param request
      * @return
      */
     @PostMapping(value = "/image")
     @ResponseBody
-    public JsonResult selectImage(HttpServletRequest request){
-        Map<String,String> params = new HashMap<>();
+    public JsonResult selectImage(HttpServletRequest request) {
+        Map<String, String> params = new HashMap<>();
         int total = imageService.selectCount(params);
         //页数
-        int page =Integer.valueOf(request.getParameter("page"));
+        int page = Integer.valueOf(request.getParameter("page"));
         //显示的条数
-        int limit =Integer.valueOf(request.getParameter("limit"));
-        int firstNum = (page-1)*limit;
-        params.put("lastNum",String.valueOf(limit));
-        params.put("firstNum",String.valueOf(firstNum));
+        int limit = Integer.valueOf(request.getParameter("limit"));
+        int firstNum = (page - 1) * limit;
+        params.put("lastNum", String.valueOf(limit));
+        params.put("firstNum", String.valueOf(firstNum));
         //查询的数据集
         List<JokeImage> images = imageService.selectPage(params);
-        return this.successRender().add("data",images).add("status",0).add("total",total).add("msg","成功");
+        return this.successRender().add("data", images).add("status", 0).add("total", total).add("msg", "成功");
     }
-
 
 
     /**
      * 上传图片和提交表单
+     *
      * @param multipartFile
      * @param
      * @param request
@@ -83,28 +78,29 @@ public class ImageController extends JsonResultUtil {
      */
     @PostMapping("/upload")
     @ResponseBody
-    public JsonResult uploadImage(@RequestParam("file") MultipartFile multipartFile,HttpServletRequest request){
-        String picsrc  = "";
+    public JsonResult uploadImage(@RequestParam("file") MultipartFile multipartFile, HttpServletRequest request) {
+        String picsrc = "";
         try {
-            picsrc =  OSSBootUtil.upload(ossConfig,multipartFile,"joke/image");
+            picsrc = OSSBootUtil.upload(ossConfig, multipartFile, "joke/image");
         } catch (Exception e) {
             e.printStackTrace();
-            LOGGER.error("上传图片错误！",e.getMessage());
+            LOGGER.error("上传图片错误！", e.getMessage());
             return this.failRender();
         }
-        return this.successRender().add("message",picsrc);
+        return this.successRender().add("message", picsrc);
     }
 
 
     /**
      * 全部保存，插入全部数据
+     *
      * @param params
      * @param request
      * @return
      */
     @PostMapping("/insertImage")
     @ResponseBody
-    public JsonResult insertImage(@RequestBody JSONObject params, HttpServletRequest request){
+    public JsonResult insertImage(@RequestBody JSONObject params, HttpServletRequest request) {
 
         String imageId = UUIDUtils.getUUID();
         JokeImage jokeImage = new JokeImage();
@@ -118,16 +114,16 @@ public class ImageController extends JsonResultUtil {
             imageService.insert(jokeImage);
         } catch (Exception e) {
             e.printStackTrace();
-            LOGGER.error("插入图片失败！",e.getMessage());
-            return this.failRender().add("message","插入图片失败！");
+            LOGGER.error("插入图片失败！", e.getMessage());
+            return this.failRender().add("message", "插入图片失败！");
         }
 
 
         //获取图片地址数组
-        Object[] images=params.getJSONArray("resultImages").toArray();
+        Object[] images = params.getJSONArray("resultImages").toArray();
         List<ImageFile> imageFiles = new ArrayList<>();
         ImageFile imageFile = null;
-        for (Object image: images) {
+        for (Object image : images) {
             imageFile = new ImageFile();
             imageFile.setFlag(0);
             imageFile.setId(UUIDUtils.getUUID());
@@ -139,19 +135,53 @@ public class ImageController extends JsonResultUtil {
         }
 
         //插入到imageFile表中
-        if (imageFiles.size()>0){
-            for (ImageFile image: imageFiles) {
+        if (imageFiles.size() > 0) {
+            for (ImageFile image : imageFiles) {
                 try {
                     imageFileService.insert(image);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    LOGGER.error("插入图片file失败！",e.getMessage());
-                    return this.failRender().add("message","插入图片file失败！");
+                    LOGGER.error("插入图片file失败！", e.getMessage());
+                    return this.failRender().add("message", "插入图片file失败！");
                 }
             }
         }
         return this.successRender();
     }
 
+    /**
+     * 单条记录查看图片列表
+     */
+    @GetMapping("/viewOne/{iamgeId}")
+    @ResponseBody
+    public JsonResult viewOne(@PathVariable("iamgeId") String iamgeId) {
+        List<ImageFile> imageFiles = new ArrayList<>();
+        if (StringUtil.isNotEmpty(iamgeId)) {
+            imageFiles = imageFileService.selectByImageIdOrderByCreateTimeDesc(iamgeId);
+            return this.successRender().add("imageFiles",imageFiles);
+        }else {
+            return this.failRender().message("请与管理员进行联系");
+        }
+    }
+
+    /**
+     * 删除
+     */
+    @GetMapping("/del/{iamgeId}")
+    @ResponseBody
+    public JsonResult delOne(@PathVariable("iamgeId") String iamgeId){
+        if (StringUtil.isNotEmpty(iamgeId)) {
+            try {
+                imageService.updateFlagAndUpdateTimeById(1,new Date(),iamgeId);
+                return this.successRender().message("删除成功");
+            } catch (Exception e) {
+                e.printStackTrace();
+                LOGGER.error("删除图片失败！",e.getMessage());
+                return this.failRender().message("删除图片失败,请与管理员进行联系");
+            }
+        }else {
+            return this.failRender().message("删除图片失败,请与管理员进行联系");
+        }
+    }
 
 }

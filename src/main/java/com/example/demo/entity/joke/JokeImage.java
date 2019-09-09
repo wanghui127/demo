@@ -1,7 +1,9 @@
 package com.example.demo.entity.joke;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+
+import java.util.Date;
 
 @Data
 public class JokeImage {
@@ -23,11 +25,13 @@ public class JokeImage {
     /**
      * 创建时间
      */
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm")
     private Date createTime;
 
     /**
      * 更新时间
      */
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm")
     private Date updateTime;
 
     /**
