@@ -38,11 +38,6 @@ public class JokeController extends JsonResultUtil{
         return "joke/jokeList";
     }
 
-    //滚动
-    @RequestMapping("/gundong")
-    public String gundong(){
-        return "/gundong";
-    }
 
     //postman测试（可删）
     @PostMapping("entityTest")

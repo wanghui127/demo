@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ImageFileServiceImpl implements ImageFileService {
@@ -56,5 +57,15 @@ public class ImageFileServiceImpl implements ImageFileService {
     @Override
     public List<ImageFile> selectByImageIdOrderByCreateTimeDesc(String imageId) {
         return imageFileMapper.selectByImageIdOrderByCreateTimeDesc(imageId);
+    }
+
+    @Override
+    public Integer countByFlag(Integer flag) {
+        return imageFileMapper.countByFlag(flag);
+    }
+
+    @Override
+    public List<ImageFile> selectPage(Map<String, String> params) {
+        return imageFileMapper.selectPage(params);
     }
 }
