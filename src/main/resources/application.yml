@@ -1,0 +1,79 @@
+#yml配置方式
+spring:
+  #数据库
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/joke?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  thymeleaf:
+    cache: false
+    suffix: .html
+    encoding: utf-8
+    check-template-location: true
+  mvc:
+    view:
+      prefix: /
+      suffix: .html
+  freemarker:
+    suffix: .html
+    cache: false
+    template-loader-path: classpath:/templates/
+    charset: UTF-8
+    enabled: true
+    expose-request-attributes: true
+    expose-session-attributes: true
+    expose-spring-macro-helpers: true
+    request-context-attribute: requestContext
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: 123456
+    timeout: 5000
+    jedis:
+      pool:
+        max-active: 1000
+        max-idle: 100
+        min-idle: 20
+        max-wait: 10000
+  profiles:
+    #active: dev
+  application:
+    name: 暂时不知道叫啥系统
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 1024000000
+      max-request-size: 1024000000
+  mail:
+    host: smtp.qq.com
+    username: 1360907366@qq.com
+    password: qbzkvwkbbzvfbaei
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enabled: true
+            required: true
+  jpa:
+    show-sql: true
+#mybatis
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.demo.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#Server
+server:
+  port: 8080
+  servlet:
+    context-path: /demo
+#aliyun oss
+oss:
+  endpoint: http://oss-cn-beijing.aliyuncs.com
+  picurlPrefix: https://sparrow-test.oss-cn-beijing.aliyuncs.com/
+  accessKeyId: LTAIt7lc0CxAaTn9
+  accessKeySecret: nB0G37bNMLWAaUweT8K15wEHRV1jWp
+  bucketName: sparrow-test
