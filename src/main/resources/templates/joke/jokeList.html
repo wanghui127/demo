@@ -55,8 +55,8 @@
                 {type: 'radio', title: '选择', align: 'center', fixed: 'left',width:'5%'}
                 , {type: 'numbers', title: '序号', align: 'center', fixed: 'left',width:'5%'}
                 , {field: 'id', title: '主键', align: 'center',width:'6%'}
-                , {field: 'content', title: '内容', align: 'left',width:'79%'}
-                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:'10%'}
+                , {field: 'content', title: '内容', align: 'left',width:'69%'}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:'15%'}
             ]]
             , page: true
             ,parseData: function(res){ //res 即为原始返回的数据
@@ -85,7 +85,7 @@
                     case 'getCheckAdd':
                         layer.prompt({
                             formType: 2,
-                            value: '请输入笑话内容',
+                            //value: '请输入笑话内容',
                             title: '请输入内容',
                             area: ['600px', '350px'] //自定义文本域宽高
                         }, function(value, index, elem){
@@ -98,7 +98,7 @@
                                 contentType: "application/json; charset=utf-8",
                                 success: function (res) {
                                     if (res.succeed){
-                                        obj.del();
+                                        //obj.del();
                                         layer.close(index);
                                         tableIns.reload({
                                             elem: '#test'
@@ -108,7 +108,7 @@
                                                 //curr: 1 //重新从第 1 页开始
                                             }
                                             ,done: function(res, curr, count){
-                                                layer.closeAll();
+                                                //layer.closeAll();
                                             }
                                         });
                                         layer.alert(res.msg, {icon: 1});
@@ -149,7 +149,7 @@
                                         //curr: 1 //重新从第 1 页开始
                                     }
                                     ,done: function(res, curr, count){
-                                        layer.closeAll();
+                                        //layer.closeAll();
                                     }
                                 });
                                 layer.alert(res.msg, {icon: 1});
@@ -183,7 +183,7 @@
                                         //curr: 1 //重新从第 1 页开始
                                     }
                                     ,done: function(res, curr, count){
-                                        layer.closeAll();
+                                        //layer.closeAll();
                                     }
                                 });
                                 //更新内容

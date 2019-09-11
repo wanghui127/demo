@@ -147,11 +147,11 @@
             , cols: [[
                 {type: 'radio', title: '选择', align: 'center', fixed: 'left',width:'5%'}
                 , {type: 'numbers', title: '序号', align: 'center', fixed: 'left',width:'5%'}
-                , {field: 'id', title: '主键', align: 'center',width:'25%'}
+                , {field: 'id', title: '主键', align: 'center',width:'20%'}
                 , {field: 'title', title: '标题', align: 'center',width:'40%'}
                 , {field: 'createTime', title: '发布时间', align: 'center',width:'15%'}
                 //, {field: 'picSrc', title: '标题', align: 'left',width:'40%',templet:'#imagePrew'}
-                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:'10%'}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:'15%'}
             ]]
             , page: true
             ,parseData: function(res){ //res 即为原始返回的数据
@@ -270,7 +270,7 @@
                                         //curr: 1 //重新从第 1 页开始
                                     }
                                     ,done: function(res, curr, count){
-                                        layer.closeAll();
+                                        //layer.closeAll();
                                     }
                                 });
                                 layer.alert(res.msg, {icon: 1});
